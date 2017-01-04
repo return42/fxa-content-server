@@ -949,6 +949,15 @@ define(function (require, exports, module) {
      */
     getSearchParams (paramNames) {
       return Url.searchParams(this.window.location.search, paramNames);
+    },
+
+    /**
+     * Get the full value from the URL search parameter
+     *
+     * @returns {String}
+     */
+    getSearchString () {
+      return this.window.location.search;
     }
   });
 
