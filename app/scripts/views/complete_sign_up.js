@@ -147,10 +147,17 @@ define(function (require, exports, module) {
         .then(() => {
           if (relier.isSync()) {
             if (this._isEligibleToConnectAnotherDevice(account)) {
-              // Sync users that are part of the experiment group who verify
-              // are sent to "connect another device". If the experiment proves
-              // useful, all users will be sent there.
-              this.navigate('connect_another_device', { account });
+              return account.isSignedIn()
+                .then((isSignedIn) => {
+                  if (isSignedIn) {
+                    this.navigate('send_sms', { account });
+                  } else {
+                    // Sync users that are part of the experiment group who verify
+                    // are sent to "connect another device". If the experiment proves
+                    // useful, all users will be sent there.
+                    this.navigate('connect_another_device', { account });
+                  }
+                });
             } else {
               this._navigateToVerifiedScreen();
             }

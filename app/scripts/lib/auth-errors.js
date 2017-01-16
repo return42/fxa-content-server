@@ -339,6 +339,14 @@ define(function (require, exports, module) {
       errno: 1048,
       // not user facing, only used for logging, not wrapped in `t`
       message: 'Cannot change input type: %(type)s'
+    },
+    PHONE_NUMBER_REQUIRED: {
+      errno: 1049,
+      message: t('Phone number required')
+    },
+    INVALID_PHONE_NUMBER: {
+      errno: 1050,
+      message: t('Phone number invalid')
     }
   };
   /*eslint-enable sorting/sort-object-props*/

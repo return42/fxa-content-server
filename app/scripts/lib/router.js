@@ -36,11 +36,13 @@ define(function (require, exports, module) {
   const ReadyView = require('../views/ready');
   const ReportSignInView = require('views/report_sign_in');
   const ResetPasswordView = require('../views/reset_password');
+  const SendSmsView = require('../views/send_sms');
   const SettingsView = require('../views/settings');
   const SignInView = require('../views/sign_in');
   const SignInReportedView = require('views/sign_in_reported');
   const SignInUnblockView = require('../views/sign_in_unblock');
   const SignUpView = require('../views/sign_up');
+  const SmsSentView = require('../views/sms_sent');
   const Storage = require('./storage');
   const TosView = require('../views/tos');
   const WhyConnectAnotherDeviceView = require('../views/why_connect_another_device');
@@ -87,6 +89,7 @@ define(function (require, exports, module) {
       'reset_password(/)': createViewHandler(ResetPasswordView),
       'reset_password_confirmed(/)': createViewHandler(ReadyView, { type: VerificationReasons.PASSWORD_RESET }),
       'reset_password_verified(/)': createViewHandler(ReadyView, { type: VerificationReasons.PASSWORD_RESET }),
+      'send_sms(/)': createViewHandler(SendSmsView),
       'settings(/)': createViewHandler(SettingsView),
       'settings/avatar/camera(/)': createChildViewHandler(AvatarCameraView, SettingsView),
       'settings/avatar/change(/)': createChildViewHandler(AvatarChangeView, SettingsView),
@@ -109,6 +112,7 @@ define(function (require, exports, module) {
       'signup_confirmed(/)': createViewHandler(ReadyView, { type: VerificationReasons.SIGN_UP }),
       'signup_permissions(/)': createViewHandler(PermissionsView, { type: VerificationReasons.SIGN_UP }),
       'signup_verified(/)': createViewHandler(ReadyView, { type: VerificationReasons.SIGN_UP }),
+      'sms_sent(/)': createViewHandler(SmsSentView),
       'verify_email(/)': createViewHandler(CompleteSignUpView, { type: VerificationReasons.SIGN_UP })
     },
 

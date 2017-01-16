@@ -35,6 +35,7 @@ module.exports = function (config, i18n) {
     require('./routes/get-version.json'),
     require('./routes/post-metrics')(),
     require('./routes/post-metrics-errors')(),
+    require('./routes/post-sms')(config),
     require('./routes/redirect-complete-to-verified')()
   ];
 
@@ -137,6 +138,7 @@ module.exports = function (config, i18n) {
       '/reset_password',
       '/reset_password_confirmed',
       '/reset_password_verified',
+      '/send_sms',
       '/settings',
       '/settings/avatar/camera',
       '/settings/avatar/change',
@@ -159,6 +161,7 @@ module.exports = function (config, i18n) {
       '/signup_confirmed',
       '/signup_permissions',
       '/signup_verified',
+      '/sms_sent',
       '/verify_email'
     ];
 
