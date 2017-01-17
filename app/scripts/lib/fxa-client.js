@@ -558,6 +558,10 @@ define(function (require, exports, module) {
       return client.deviceList(sessionToken);
     }),
 
+    webSessionList: withClient((client, sessionToken) => {
+      return client.webSessionList(sessionToken);
+    }),
+
     deviceDestroy: withClient((client, sessionToken, deviceId) => {
       return client.deviceDestroy(sessionToken, deviceId);
     }),

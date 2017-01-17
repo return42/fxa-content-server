@@ -782,6 +782,23 @@ define(function (require, exports, module) {
     },
 
     /**
+     * Fetch the account's Web Sessions and populate into the collection
+     *
+     * @returns {Promise} resolves when the action completes
+     */
+    fetchWebSessions () {
+      return this._fxaClient.webSessionList(this.get('sessionToken'))
+        .then((webSessions) => {
+          webSessions.map((item) => {
+            item.clientType = Constants.CLIENT_TYPE_WEB_SESSION;
+            item.name = 'Web Session';
+          });
+
+          return webSessions;
+        });
+    },
+
+    /**
      * Delete the device from the account
      *
      * @param {Object} device - Device model to remove
