@@ -83,9 +83,9 @@ define(function (require, exports, module) {
       email = TestHelpers.createEmail();
       formPrefill = new FormPrefill();
       fxaClient = new FxaClient();
-      metrics = new Metrics();
       model = new Backbone.Model();
       notifier = new Notifier();
+      metrics = new Metrics({ notifier });
       relier = new Relier();
       translator = new Translator({forceEnglish: true});
 
@@ -98,6 +98,9 @@ define(function (require, exports, module) {
       });
 
       createView();
+
+      $('body').attr('data-flow-id', 'F1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF103');
+      $('body').attr('data-flow-begin', '42');
 
       return view.render()
         .then(function () {
@@ -374,33 +377,6 @@ define(function (require, exports, module) {
           .then(function () {
             assert.isTrue(view.getPasswordStrengthChecker.called);
           });
-      });
-    });
-
-    describe('afterRender', function () {
-      var FLOW_ID = 'F1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF103';
-
-      beforeEach(function () {
-        $('body').attr('data-flow-id', FLOW_ID);
-        $('body').attr('data-flow-begin', 3);
-        sinon.spy(metrics, 'setFlowModel');
-        sinon.spy(metrics, 'logFlowEventOnce');
-        return view.afterRender();
-      });
-
-      it('called metrics.setFlowModel correctly', function () {
-        assert.equal(metrics.setFlowModel.callCount, 1);
-        var args = metrics.setFlowModel.args[0];
-        assert.lengthOf(args, 1);
-        assert.equal(args[0].get('flowId'), FLOW_ID);
-        assert.equal(args[0].get('flowBegin'), 3);
-      });
-
-      it('called metrics.logFlowEventOnce correctly', function () {
-        assert.equal(metrics.logFlowEventOnce.callCount, 1);
-        var args = metrics.logFlowEventOnce.args[0];
-        assert.lengthOf(args, 1);
-        assert.equal(args[0], 'begin');
       });
     });
 
@@ -1370,9 +1346,15 @@ define(function (require, exports, module) {
 
     describe('flow events', () => {
       beforeEach(() => {
-        $('body').attr('data-flow-id', 'F1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF1031DF103');
-        $('body').attr('data-flow-begin', 3);
+        sinon.spy(notifier, 'trigger');
         return view.afterRender();
+      });
+
+      it('called notifier.trigger correctly', () => {
+        assert.equal(notifier.trigger.callCount, 2);
+        assert.equal(notifier.trigger.args[0][0], 'flow.initialize');
+        assert.equal(notifier.trigger.args[1][0], 'flow.event');
+        assert.deepEqual(notifier.trigger.args[1][1], { event: 'begin', once: true, view: undefined });
       });
 
       it('logs the begin event', () => {

@@ -43,16 +43,15 @@ define(function (require, exports, module) {
       broker = new Broker();
       email = TestHelpers.createEmail();
       formPrefill = new FormPrefill();
-      metrics = new Metrics();
       model = new Backbone.Model();
       notifier = new Notifier();
+      metrics = new Metrics({ notifier });
       translator = new Translator({forceEnglish: true});
       relier = new Relier();
       user = new User({
         metrics,
         notifier
       });
-      metrics.setFlowModel({});
       user.getSignedInAccount().set('uid', 'foo');
 
       isEmailRegistered = isUidRegistered = false;
@@ -82,6 +81,10 @@ define(function (require, exports, module) {
 
       sinon.spy(view, 'navigate');
       sinon.spy(view, 'fatalError');
+
+      $(windowMock.document.body).attr('data-flow-id', '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef');
+      $(windowMock.document.body).attr('data-flow-begin', Date.now());
+      notifier.trigger('flow.initialize');
     }
 
     beforeEach(function () {
